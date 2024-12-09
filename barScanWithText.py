@@ -11,7 +11,7 @@ from pymongo import MongoClient
 
 
 # Create folder to save snapshots if it doesn't exist
-snapshot_folder = "snapshots"
+snapshot_folder = "public/snapshots"
 if not os.path.exists(snapshot_folder):
     os.makedirs(snapshot_folder)
 
@@ -21,7 +21,7 @@ if not os.path.exists(snapshot_folder):
 # MongoDB setup
 client = MongoClient("mongodb://localhost:27017/")  # Update with your MongoDB connection string
 db = client["barcode_database"]
-collection = db["barcode_data"]
+collection = db["readings"]
 
 # Start video capture
 cap = cv2.VideoCapture(0)
@@ -73,16 +73,18 @@ while True:
             data_list.append([myData, extracted_text, timestamp])
 
             # Save a snapshot of the frame when barcode data is detected
-            snapshot_filename = f"{os.path.dirname(os.path.abspath(sys.argv[0]))}/{snapshot_folder}/snapshot_{timestamp}.jpg"
+            snapshot_filename = f"{snapshot_folder}/snapshot_{timestamp}.jpg"
             cv2.imwrite(snapshot_filename, img)
-            print(f"Snapshot saved as: {snapshot_filename}")
+            snapshot_filename2 = f"snapshots/snapshot_{timestamp}.jpg"
+
+            print(f"Snapshot saved as: {snapshot_filename2}")
 
             # Store the data in MongoDB
             document = {
                 "barcode_data": myData,
                 "extracted_text": extracted_text,
                 "timestamp": timestamp,
-                "snapshot_path": snapshot_filename
+                "snapshot_path": snapshot_filename2
             }
             collection.insert_one(document)
             print("Data stored in MongoDB")

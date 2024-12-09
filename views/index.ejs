@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+    <h1>All Data</h1>
+    <table class="table">
+        <thead>
+            <th>Barcode Data</th>
+            <th>Extracted Text</th>
+            <th>Timestamp</th>
+            <th>Image</th>
+        </thead>
+
+        <tbody>
+
+            <% if (allReadings.length > 0) { %>
+                <% allReadings.forEach(reading => { %>
+                    <tr>
+                        <td><%= reading.barcode_data %></td>
+                        <td><%= reading.extracted_text %></td>
+                        <td><%= reading.timestamp %></td>
+                        <td><img src="<%= reading.snapshot_path %>" alt="Not Found"></td>
+                    </tr>
+                 
+                <% }) %>
+             
+                <% } else { %>
+                    <h3>No users yet.</h3>
+                
+            <% } %>   
+             
+
+            
+        </tbody>
+
+    </table>
+    
+</body>
+</html>
