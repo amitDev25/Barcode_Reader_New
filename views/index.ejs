@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+     
 </head>
 <body>
+
+    <button id="startButton">Start Script</button>
+    <button id="stopButton">Stop Script</button>
 
     <h1>All Data</h1>
     <table class="table">
@@ -23,10 +27,10 @@
             <% if (allReadings.length > 0) { %>
                 <% allReadings.forEach(reading => { %>
                     <tr>
-                        <td><%= reading.barcode_data %></td>
-                        <td><%= reading.extracted_text %></td>
-                        <td><%= reading.timestamp %></td>
-                        <td><img src="<%= reading.snapshot_path %>" alt="Not Found"></td>
+                        <td class="barcode_data"><%= reading.barcode_data %></td>
+                        <td class="extracted_text"><%= reading.extracted_text %></td>
+                        <td class="timestamp"><%= reading.timestamp %></td>
+                        <td class="image"><img src="<%= reading.snapshot_path %>" alt="Not Found"></td>
                     </tr>
                  
                 <% }) %>
@@ -42,5 +46,21 @@
 
     </table>
     
+
+    <script>
+        document.getElementById('startButton').addEventListener('click', () => {
+            fetch('/start-python')
+                .then(response => response.text())
+                .then(data => alert(data))
+                .catch(error => alert('Error: ' + error));
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            fetch('/stop-python')
+                .then(response => response.text())
+                .then(data => alert(data))
+                .catch(error => alert('Error: ' + error));
+        });
+    </script>
 </body>
 </html>
